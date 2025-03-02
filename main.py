@@ -142,7 +142,7 @@ def main():
     with open("Results.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         # Write header row
-        writer.writerow(["Gesture Name", "Output Label"])
+        # writer.writerow(["Gesture Name", "Output Label"])
         # Write each test video's gesture name and its predicted label.
         for gesture_name, pred in zip(test_video_names, predictions):
             writer.writerow([gesture_name, pred])
