@@ -140,8 +140,9 @@ def main():
     # Write the predictions to "Results.csv" as a 51 x 1 matrix (no header, only predicted labels)
     with open("Results.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        for pred in predictions:
-            writer.writerow([pred])
+        for i in range(51):
+        # for pred in predictions:
+            writer.writerow([predictions[i]])
 
 if __name__ == "__main__":
     main()
