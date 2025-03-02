@@ -51,7 +51,7 @@ def extract_middle_frame(video_path):
     """
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
-        print("Error opening video:", video_path)
+        # print("Error opening video:", video_path)
         return None
 
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -62,7 +62,7 @@ def extract_middle_frame(video_path):
     if ret:
         return frame
     else:
-        print("Error reading frame from:", video_path)
+        # print("Error reading frame from:", video_path)
         return None
 
 def get_penultimate_features(folder):
@@ -92,8 +92,8 @@ def get_penultimate_features(folder):
                 gesture_name = base_name.split('_PRACTICE_')[0].strip()
                 if gesture_name in training_gesture_mapping:
                     labels.append(training_gesture_mapping[gesture_name])
-                else:
-                    print("Unrecognized gesture name in training video filename:", video_file)
+                # else:
+                    # print("Unrecognized gesture name in training video filename:", video_file)
             elif folder == "test":
                 # For test videos, we extract gesture name based on a hyphen delimiter
                 if '-' in base_name:
