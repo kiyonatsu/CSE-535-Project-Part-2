@@ -67,9 +67,8 @@ def extract_middle_frame(video_path):
 
 def get_penultimate_features(folder):
     # =============================================================================
-    # Get the penultimate layer for trainig data
+    # Get the penultimate layer for the given folder (training or test data)
     # =============================================================================
-    # your code goes here
     # Extract the middle frame of each gesture video
     extractor = HandShapeFeatureExtractor.get_instance()
     features = []
@@ -89,20 +88,20 @@ def get_penultimate_features(folder):
             # Extract gesture name from the filename (filename without extension)
             base_name = os.path.splitext(video_file)[0]
             if folder == "traindata":
-            # For training videos, assume the gesture name is before the delimiter "_PRACTICE_"
+                # For training videos, assume the gesture name is before the delimiter "_PRACTICE_"
                 gesture_name = base_name.split('_PRACTICE_')[0].strip()
                 if gesture_name in training_gesture_mapping:
                     labels.append(training_gesture_mapping[gesture_name])
                 else:
                     print("Unrecognized gesture name in training video filename:", video_file)
             elif folder == "test":
+                # For test videos, we extract gesture name based on a hyphen delimiter
                 if '-' in base_name:
                     gesture_name = base_name.split('-')[-1].strip()
                 else:
                     gesture_name = base_name
                 labels.append(gesture_name)
     return features, labels
-
 
 def compute_cosine_similarity(vec1, vec2):
     """
@@ -138,14 +137,11 @@ def main():
     # Recognize gestures in test data
     predictions = recognize_gestures(test_features, train_features, train_labels)
     
-    # Write the predictions to "Results.csv" with two columns: Gesture Name and Output Label.
+    # Write the predictions to "Results.csv" as a 51 x 1 matrix (no header, only predicted labels)
     with open("Results.csv", "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
-        # Write header row
-        # writer.writerow(["Gesture Name", "Output Label"])
-        # Write each test video's gesture name and its predicted label.
-        for gesture_name, pred in zip(test_video_names, predictions):
-            writer.writerow([gesture_name, pred])
+        for pred in predictions:
+            writer.writerow([pred])
 
 if __name__ == "__main__":
     main()
